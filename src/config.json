@@ -6,12 +6,12 @@
     "mapSize": {
         "height": {
             "min": 8,
-            "max": 8
+            "max": 12
         },
 
         "width": {
             "min": 12,
-            "max": 12
+            "max": 16
         }
     },
 
@@ -22,7 +22,7 @@
 
     "moveCost": {
         "grass": 1,
-        "bush": 20
+        "bush": 10
     },
 
     "strategyWeights": {
