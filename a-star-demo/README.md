@@ -1,5 +1,7 @@
 # A* Pathfinding
 
+![Cover](Cover.png)
+
 You can change default configurations in `main.js`.
 
 ```javascript
