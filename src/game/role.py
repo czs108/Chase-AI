@@ -174,13 +174,12 @@ class Enemy(Role):
         if not self._a_star:
             return []
         prev_path = self._a_star.prev_path
-        for i in range(len(prev_path)):
-            if prev_path[i] == self._pos:
-                path = prev_path[i:]
-                if len(path) <= 1:
-                    path = []
-                return path
-        return []
+        try:
+            begin = prev_path.index(self._pos)
+            path = prev_path[begin:]
+            return path
+        except ValueError:
+            return []
 
     def _load_strategies(self) -> None:
         weights = []
