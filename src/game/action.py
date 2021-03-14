@@ -3,6 +3,9 @@ from random import randint
 
 
 class Action(IntEnum):
+    """
+    The direction that a role can move to.
+    """
     STAY = 0
     UP = 1
     DOWN = 2

@@ -37,6 +37,9 @@ class Strategy:
         assert False
 
     def _delete_invalid(self, lvls: ActionLevels) -> ActionLevels:
+        """
+        Delete invalid actions.
+        """
         for action in Action:
             dest = action.dest(self._role.pos)
             invalid = not self._role.map.valid(*dest)
@@ -179,6 +182,9 @@ class WallDensity(Strategy):
         return self._delete_invalid(lvls)
 
     def _density(self, action: Action) -> float:
+        """
+        Calculate the density of wall in a direction.
+        """
         pos = self._role.pos
         if action == Action.LEFT:
             begin = (pos[0] - self._RANGE, pos[1] - self._RANGE)
@@ -225,6 +231,9 @@ class AStar(Strategy):
 
     @property
     def prev_path(self) -> list[tuple[int, int]]:
+        """
+        Get the previous path.
+        """
         return [spot.pos for spot in self._prev_path]
 
     def action_lvls(self, status: gm.Status) -> ActionLevels:
@@ -236,6 +245,9 @@ class AStar(Strategy):
         return lvls
 
     def _path(self, status: gm.Status) -> list[_Spot]:
+        """
+        Find a path to the opponent.
+        """
         self._clear_spots()
         heuristic = cfg.heuristic
         open_set, closed_set = [], []
@@ -284,11 +296,17 @@ class AStar(Strategy):
         return []
 
     def _init_neighbors(self) -> None:
+        """
+        Initialize the neighbors of each spot.
+        """
         for x in range(self._role.map.width):
             for y in range(self._role.map.height):
                 self._grid.spot(x, y).neighbors = self._grid.neighbors(x, y)
 
     def _clear_spots(self) -> None:
+        """
+        Clear the pathfinding record.
+        """
         for x in range(self._role.map.width):
             for y in range(self._role.map.height):
                 if self._grid.valid(x, y):
@@ -328,6 +346,9 @@ class _Spot:
         self.h = 0
 
     def retrace(self) -> list[_Spot]:
+        """
+        Retrace the path to the current spot.
+        """
         path = [self]
         spot = self
         while spot.prev:

@@ -11,16 +11,25 @@ if TYPE_CHECKING:
 
 
 class Terrain(Enum):
+    """
+    The kind of terrain in a map.
+    """
     WALL = auto()
     GRASS = auto()
     BUSH = auto()
 
     def move_cost(self) -> float:
+        """
+        Get the move cost.
+        """
         name = self.name.lower()
         return cfg.move_cost[name] if name in cfg.move_cost else math.inf
 
 
 class Map(Grid):
+    """
+    The game map.
+    """
     def __init__(self, width: int, height: int) -> None:
         assert width > 1 and height > 1
 
@@ -45,12 +54,21 @@ class Map(Grid):
         super().__init__(spots)
 
     def terrain(self, x: int, y: int) -> Terrain:
+        """
+        Get the kind of terrain at a position.
+        """
         return self.spot(x, y) if self.valid(x, y) else Terrain.WALL
 
     def wall(self, x: int, y: int) -> bool:
+        """
+        Check if there is a wall at a position.
+        """
         return self.terrain(x, y) == Terrain.WALL
 
     def blanks(self) -> list[tuple[int, int]]:
+        """
+        Get all blank positions.
+        """
         spots = []
         for x in range(self.width):
             for y in range(self.height):
@@ -59,6 +77,9 @@ class Map(Grid):
         return spots
 
     def occupied(self, x: int, y: int, status: Status) -> Occupy:
+        """
+        Check if a position has been occupied.
+        """
         if not self.valid(x, y):
             return Occupy.INVALID
         elif self.wall(x, y):
@@ -69,6 +90,9 @@ class Map(Grid):
             return Occupy.NONE
 
     def move_cost(self, x: int, y: int) -> float:
+        """
+        Get the move cost of a position.
+        """
         return self.terrain(x, y).move_cost()
 
 
@@ -90,6 +114,9 @@ class Occupy(Enum):
 
 
 class Status:
+    """
+    The game status.
+    """
     _CLOSE_DIST: int = 2
     """
     The status of a level.
@@ -104,21 +131,36 @@ class Status:
 
     @property
     def game_end(self) -> bool:
+        """
+        Whether the game is end.
+        """
         return self._game_end
 
     @property
     def score(self) -> int:
+        """
+        Get the score.
+        """
         return int(self._good_steps / self._steps * 100)
 
     @property
     def steps(self) -> int:
+        """
+        Get the number of steps.
+        """
         return self._steps
 
     @property
     def good_steps(self) -> int:
+        """
+        Get the number of good steps.
+        """
         return self._good_steps
 
     def new_step(self) -> None:
+        """
+        Record a new step.
+        """
         assert not self._game_end
         self._steps += 1
 
@@ -132,9 +174,15 @@ class Status:
             self._good_steps += 1
 
     def end_game(self) -> None:
+        """
+        End the game.
+        """
         self._game_end = True
 
     def opponent(self, role: Agent | Enemy) -> Agent | Enemy:
+        """
+        Get the opponent of a role.
+        """
         if role is self.agent:
             return self.enemy
         elif role is self.enemy:

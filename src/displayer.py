@@ -12,6 +12,9 @@ if TYPE_CHECKING:
 
 
 class Displayer:
+    """
+    Display the game.
+    """
     _TILE_WIDTH: int = 50
     _TILE_HEIGHT: int = 85
     _TILE_FLOOR_HEIGHT: int = 40

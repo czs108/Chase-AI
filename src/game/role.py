@@ -10,7 +10,18 @@ if TYPE_CHECKING:
 
 
 class Role:
+    """
+    The game role.
+    """
     def __init__(self, status: gm.Status, map: gm.Map, pos: tuple[int, int]) -> None:
+        """
+        The constructor.
+
+        -- PARAMETERS --
+        status: The game status.
+        map: The game map.
+        pos: The position of the role.
+        """
         self._status: gm.Status = status
         self._map: gm.Map = map
 
@@ -54,6 +65,9 @@ class Role:
         self._selector.weights = value
 
     def revealed(self, pos: tuple[int, int]) -> bool:
+        """
+        Reveal a new position, which means the role has known its terrain.
+        """
         return self._revealed[pos[0]][pos[1]]
 
     def move(self) -> bool:

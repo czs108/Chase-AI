@@ -8,7 +8,16 @@ if TYPE_CHECKING:
 
 
 class Grid:
+    """
+    The grid manager.
+    """
     def __init__(self, spots: Sequence[Sequence[T]]) -> None:
+        """
+        The constructor.
+
+        -- PARAMETERS --
+        spots: A 2D array of spots. They will be the elements of grid.
+        """
         self._spots: Sequence[Sequence[T]] = spots
 
     @property
@@ -24,9 +33,15 @@ class Grid:
         return len(self._spots[0])
 
     def delete(self, x: int, y: int) -> None:
+        """
+        Delete a spot.
+        """
         self._spots[x][y] = None
 
     def valid(self, x: int, y: int) -> bool:
+        """
+        Check if there is a spot at a position.
+        """
         if x < 0 or x >= self.width:
             return False
         elif y < 0 or y >= self.height:
@@ -37,9 +52,15 @@ class Grid:
             return True
 
     def spot(self, x: int, y: int) -> Optional[T]:
+        """
+        Get the spot at a position.
+        """
         return self._spots[x][y] if self.valid(x, y) else None
 
     def neighbors(self, x: int, y: int) -> list[T]:
+        """
+        Get neighbor spots of a position.
+        """
         if not self.valid(x, y):
             return []
         spots = []
