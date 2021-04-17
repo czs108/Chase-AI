@@ -1,5 +1,9 @@
 # Chase AI
 
+[![Python](docs/badges/Python-3.10-brightgreen.svg)](https://www.python.org/)
+![ECMAScript](docs/badges/ECMAScript-6-brightgreen.svg)
+[![License](docs/badges/License-GPL-3.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
+
 ## About The Project
 
 ![Cover](Cover.png)
