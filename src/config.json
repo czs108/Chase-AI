@@ -1,0 +1,42 @@
+{
+    "fps": 10,
+
+    "maxSteps": 500,
+
+    "mapSize": {
+        "height": {
+            "min": 8,
+            "max": 12
+        },
+
+        "width": {
+            "min": 12,
+            "max": 16
+        }
+    },
+
+    "terrainProb": {
+        "wall": 0.25,
+        "bush": 0.2
+    },
+
+    "moveCost": {
+        "grass": 1,
+        "bush": 10
+    },
+
+    "strategyWeights": {
+        "agent": {
+            "random": 1,
+            "moveAway": 0,
+            "wallDensity": 0
+        },
+
+        "enemy": {
+            "random": 0.2,
+            "aStar": 1,
+            "moveClose": 0.1,
+            "wallDensity": 0
+        }
+    }
+}
