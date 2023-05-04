@@ -101,10 +101,6 @@ class Enemy {
 
 Role <|-- Enemy
 
-class ActionLevels {
-    dict~Action, float~ weights
-}
-
 ActionLevels --> Action
 
 class Strategy {
