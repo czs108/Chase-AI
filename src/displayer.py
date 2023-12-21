@@ -1,14 +1,11 @@
 from pathlib import Path
 from random import randint
-from typing import TYPE_CHECKING
+from collections.abc import Sequence
 
 import pygame as pg
 
 from game.map import Map, Status, Terrain
 from game import cfg
-
-if TYPE_CHECKING:
-    from collections.abc import Sequence
 
 
 class Displayer:
@@ -39,7 +36,7 @@ class Displayer:
         self._enemy_image: pg.image = None
         self._ground_images: list[list[pg.image]] = None
 
-    def init(self, map: Map, status: Status) -> Displayer:
+    def init(self, map: Map, status: Status) -> 'Displayer':
         self._map = map
         self._status = status
         self._width = map.width * self._TILE_WIDTH

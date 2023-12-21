@@ -1,5 +1,5 @@
 from random import randint
-from typing import TYPE_CHECKING
+from collections.abc import Sequence
 
 from game import cfg
 from game.action import Action
@@ -7,10 +7,51 @@ from grid import Grid
 import game.map as gm
 import game.role as gr
 
-if TYPE_CHECKING:
-    from collections.abc import Sequence
+ActionLevels = dict[Action, float]
 
-    ActionLevels = dict[Action, float]
+
+class _Spot:
+    """
+    Used by A* path-finding.
+    """
+    def __init__(self, x: int, y: int) -> None:
+        self._pos: tuple[int, int] = (x, y)
+        self.prev: '_Spot' = None
+
+        self.g: float = 0
+        self.h: float = 0
+
+    @property
+    def pos(self) -> tuple[int, int]:
+        return self._pos
+
+    @property
+    def x(self) -> int:
+        return self._pos[0]
+
+    @property
+    def y(self) -> int:
+        return self._pos[1]
+
+    @property
+    def f(self) -> float:
+        return self.g + self.h
+
+    def clear(self) -> None:
+        self.prev = None
+        self.g = 0
+        self.h = 0
+
+    def retrace(self) -> list['_Spot']:
+        """
+        Retrace the path to the current spot.
+        """
+        path = [self]
+        spot = self
+        while spot.prev:
+            path.insert(0, spot.prev)
+            spot = spot.prev
+        return path
 
 
 class Strategy:
@@ -26,10 +67,10 @@ class Strategy:
         """
         return {action: 0 for action in Action}
 
-    def __init__(self, role: gr.Role) -> None:
-        self._role: gr.Role = role
+    def __init__(self, role: 'gr.Role') -> None:
+        self._role: 'gr.Role' = role
 
-    def action_lvls(self, status: gm.Status) -> ActionLevels:
+    def action_lvls(self, status: 'gm.Status') -> ActionLevels:
         """
         Get an array containing the level of recommendation for every action.
         Subclasses should implement their logic.
@@ -54,7 +95,7 @@ class ActionSelector:
     Choose the action according to the specific weights.
     """
     @staticmethod
-    def equality(strategy_num: int) -> ActionSelector:
+    def equality(strategy_num: int) -> 'ActionSelector':
         """
         Create a default selector with all weights equal to 1.
         """
@@ -103,7 +144,7 @@ class Random(Strategy):
     def name() -> str:
         return "random"
 
-    def action_lvls(self, status: gm.Status) -> ActionLevels:
+    def action_lvls(self, status: 'gm.Status') -> ActionLevels:
         lvls = self.new_init_lvls()
         for action in Action:
             lvls[action] = randint(0, int(self.MAX_ACTION_LVL))
@@ -126,7 +167,7 @@ class MoveAway(Strategy):
     def name() -> str:
         return "moveAway"
 
-    def action_lvls(self, status: gm.Status) -> ActionLevels:
+    def action_lvls(self, status: 'gm.Status') -> ActionLevels:
         target = status.opponent(self._role)
         lvls = self.new_init_lvls()
         if self._role.pos[0] >= target.pos[0]:
@@ -149,7 +190,7 @@ class MoveClose(Strategy):
     def name() -> str:
         return "moveClose"
 
-    def action_lvls(self, status: gm.Status) -> ActionLevels:
+    def action_lvls(self, status: 'gm.Status') -> ActionLevels:
         target = status.opponent(self._role)
         lvls = self.new_init_lvls()
         if self._role.pos[0] > target.pos[0]:
@@ -174,7 +215,7 @@ class WallDensity(Strategy):
     def name() -> str:
         return "wallDensity"
 
-    def action_lvls(self, status: gm.Status) -> ActionLevels:
+    def action_lvls(self, status: 'gm.Status') -> ActionLevels:
         lvls = self.new_init_lvls()
         for action in Action:
             lvls[action] = (1 - self._density(action)) * Strategy.MAX_ACTION_LVL
@@ -218,7 +259,7 @@ class AStar(Strategy):
     def name() -> str:
         return "aStar"
 
-    def __init__(self, role: gr.Role) -> None:
+    def __init__(self, role: 'gr.Role') -> None:
         super().__init__(role)
         self._prev_path: list[_Spot] = []
 
@@ -236,7 +277,7 @@ class AStar(Strategy):
         """
         return [spot.pos for spot in self._prev_path]
 
-    def action_lvls(self, status: gm.Status) -> ActionLevels:
+    def action_lvls(self, status: 'gm.Status') -> ActionLevels:
         lvls = self.new_init_lvls()
         self._prev_path = self._path(status)
         if len(self._prev_path) > 0:
@@ -244,7 +285,7 @@ class AStar(Strategy):
             lvls[action] = Strategy.MAX_ACTION_LVL
         return lvls
 
-    def _path(self, status: gm.Status) -> list[_Spot]:
+    def _path(self, status: 'gm.Status') -> list[_Spot]:
         """
         Find a path to the opponent.
         """
@@ -311,47 +352,3 @@ class AStar(Strategy):
             for y in range(self._role.map.height):
                 if self._grid.valid(x, y):
                     self._grid.spot(x, y).clear()
-
-
-class _Spot:
-    """
-    Used by A* path-finding.
-    """
-    def __init__(self, x: int, y: int) -> None:
-        self._pos: tuple[int, int] = (x, y)
-        self.prev: _Spot = None
-
-        self.g: float = 0
-        self.h: float = 0
-
-    @property
-    def pos(self) -> tuple[int, int]:
-        return self._pos
-
-    @property
-    def x(self) -> int:
-        return self._pos[0]
-
-    @property
-    def y(self) -> int:
-        return self._pos[1]
-
-    @property
-    def f(self) -> float:
-        return self.g + self.h
-
-    def clear(self) -> None:
-        self.prev = None
-        self.g = 0
-        self.h = 0
-
-    def retrace(self) -> list[_Spot]:
-        """
-        Retrace the path to the current spot.
-        """
-        path = [self]
-        spot = self
-        while spot.prev:
-            path.insert(0, spot.prev)
-            spot = spot.prev
-        return path

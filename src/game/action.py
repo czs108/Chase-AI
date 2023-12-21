@@ -30,7 +30,7 @@ class Action(IntEnum):
             assert False
 
     @staticmethod
-    def next(src: tuple[int, int], dest: tuple[int, int]) -> Action:
+    def next(src: tuple[int, int], dest: tuple[int, int]) -> 'Action':
         """
         Get the next action from the source to the destination.
         """

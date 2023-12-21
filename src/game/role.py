@@ -1,19 +1,16 @@
-from typing import TYPE_CHECKING
+from collections.abc import Sequence
 
 import game.map as gm
 import game.strategy as sg
 from game import cfg
 from game.action import Action
 
-if TYPE_CHECKING:
-    from collections.abc import Sequence
-
 
 class Role:
     """
     The game role.
     """
-    def __init__(self, status: gm.Status, map: gm.Map, pos: tuple[int, int]) -> None:
+    def __init__(self, status: 'gm.Status', map: 'gm.Map', pos: tuple[int, int]) -> None:
         """
         The constructor.
 
@@ -22,7 +19,7 @@ class Role:
         map: The game map.
         pos: The position of the role.
         """
-        self._status: gm.Status = status
+        self._status: 'gm.Status' = status
         self._map: gm.Map = map
 
         # The current position.
@@ -53,7 +50,7 @@ class Role:
         return self._pos
 
     @property
-    def map(self) -> gm.Map:
+    def map(self) -> 'gm.Map':
         return self._map
 
     @property
@@ -90,7 +87,7 @@ class Role:
         # Get the action with the highest level of recommendation.
         return self._selector.highest(lvl_matrix)
 
-    def terrain(self) -> gm.Terrain:
+    def terrain(self) -> 'gm.Terrain':
         """
         Get the terrain of the role's position.
         """
@@ -140,7 +137,7 @@ class Role:
 
 
 class Agent(Role):
-    def __init__(self, status: gm.Status, map: gm.Map, pos: tuple[int, int]) -> None:
+    def __init__(self, status: 'gm.Status', map: 'gm.Map', pos: tuple[int, int]) -> None:
         super().__init__(status, map, pos)
         self._revealed = [[True] * map.height for _ in range(map.width)]
         self._load_strategies()
@@ -175,7 +172,7 @@ class Agent(Role):
 
 
 class Enemy(Role):
-    def __init__(self, status: gm.Status, map: gm.Map, pos: tuple[int, int]) -> None:
+    def __init__(self, status: 'gm.Status', map: 'gm.Map', pos: tuple[int, int]) -> None:
         super().__init__(status, map, pos)
         self._a_star: sg.AStar = None
         self._load_strategies()

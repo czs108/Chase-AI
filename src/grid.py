@@ -1,10 +1,7 @@
-from typing import TYPE_CHECKING
+from collections.abc import Sequence
+from typing import TypeVar, Optional
 
-if TYPE_CHECKING:
-    from collections.abc import Sequence
-    from typing import TypeVar, Optional
-
-    T = TypeVar("T")
+T = TypeVar("T")
 
 
 class Grid:

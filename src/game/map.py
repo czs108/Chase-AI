@@ -1,13 +1,27 @@
-from typing import TYPE_CHECKING
 from enum import Enum, auto
 from random import random
 import math
 
 from grid import Grid
 from game import cfg
+from game.role import Enemy, Agent
 
-if TYPE_CHECKING:
-    from game.role import Enemy, Agent
+
+class Occupy(Enum):
+    """
+    The result of occupation check.
+    """
+    # No occupation.
+    NONE = auto()
+
+    # The position is invalid.
+    INVALID = auto()
+
+    # The position is a wall.
+    WALL = auto()
+
+    # The position is occupied by a role.
+    ROLE = auto()
 
 
 class Terrain(Enum):
@@ -76,7 +90,7 @@ class Map(Grid):
                     spots.append((x, y))
         return spots
 
-    def occupied(self, x: int, y: int, status: Status) -> Occupy:
+    def occupied(self, x: int, y: int, status: 'Status') -> Occupy:
         """
         Check if a position has been occupied.
         """
@@ -94,23 +108,6 @@ class Map(Grid):
         Get the move cost of a position.
         """
         return self.terrain(x, y).move_cost()
-
-
-class Occupy(Enum):
-    """
-    The result of occupation check.
-    """
-    # No occupation.
-    NONE = auto()
-
-    # The position is invalid.
-    INVALID = auto()
-
-    # The position is a wall.
-    WALL = auto()
-
-    # The position is occupied by a role.
-    ROLE = auto()
 
 
 class Status:

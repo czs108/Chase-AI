@@ -1,11 +1,8 @@
 import json
-from typing import TYPE_CHECKING
+from collections.abc import Callable
 from pathlib import Path
 
-if TYPE_CHECKING:
-    from collections.abc import Callable
-
-    Heuristic = Callable[[tuple[int, int], tuple[int, int]], float]
+Heuristic = Callable[[tuple[int, int], tuple[int, int]], float]
 
 
 class Config:
@@ -51,7 +48,7 @@ class Config:
         return self._cfg["moveCost"]
 
     @property
-    def heuristic(self) -> Heuristic:
+    def heuristic(self) -> 'Heuristic':
         """
         The heuristic function.
         """
