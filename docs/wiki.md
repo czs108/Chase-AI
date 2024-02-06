@@ -1,8 +1,8 @@
 # Chase AI
 
-[![Python](badges/Python-3.10.svg)](https://www.python.org)
-![ECMAScript](badges/ECMAScript-6.svg)
-[![License](badges/License-GPL-3.0.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
+[![Python](badges/Python.svg)](https://www.python.org)
+![ECMAScript](badges/ECMAScript.svg)
+![License](badges/License-MIT.svg)
 
 ## Introduction
 
@@ -380,6 +380,6 @@ The game runs 100 times in each trial and the agent's scores are shown below:
 
 ## License
 
-Distributed under the *GNU General Public License*. See `LICENSE` for more information.
+Distributed under the *MIT License*. See `LICENSE` for more information.
 
 The image resources are from the book "*Making Games with Python & Pygame*" written by *Al Sweigart*.

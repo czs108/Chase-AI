@@ -1,8 +1,8 @@
 # Chase AI
 
-[![Python](docs/badges/Python-3.10.svg)](https://www.python.org)
-![ECMAScript](docs/badges/ECMAScript-6.svg)
-[![License](docs/badges/License-GPL-3.0.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
+[![Python](docs/badges/Python.svg)](https://www.python.org)
+![ECMAScript](docs/badges/ECMAScript.svg)
+![License](docs/badges/License-MIT.svg)
 
 ## Introduction
 
@@ -146,6 +146,6 @@ Agent --> WallDensity
 
 ## License
 
-Distributed under the *GNU General Public License*. See `LICENSE` for more information.
+Distributed under the *MIT License*. See `LICENSE` for more information.
 
 The image resources are from the book "*Making Games with Python & Pygame*" written by *Al Sweigart*.
